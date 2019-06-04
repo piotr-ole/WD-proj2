@@ -1,0 +1,154 @@
+<html>
+	<head></head>
+	<body>
+		
+	</body>
+</html>
+
+
+<style>
+.plot-bg {
+	fill:#edeac2;
+}
+
+.timeline {
+	stroke: #bd925a;
+	stroke-width: 5px;
+}
+
+.timeline-circle {
+	stroke:#A16928;
+	stroke-width: 5px;
+	fill: #edeac2;
+	cursor: pointer;
+}
+
+.timeline-circle-selected {
+	fill: #A16928 !important;
+}
+
+.river1 {
+	stroke:#2887a1;
+	stroke-width: 10px;
+	fill: none;
+}
+
+.river2 {
+	stroke:#2887a1;
+	stroke-width: 5px;
+	fill: none;
+}
+
+</style>
+
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+
+<script>
+
+var canvasHeigth = 400;
+var canvasWidth = 800;
+
+var svgContainer = d3.select("body").append("svg")
+                                    .attr("width",  canvasWidth)
+                                    .attr("height", canvasHeigth)
+
+var background = svgContainer.append("rect")
+							 .attr("x", 0)
+							 .attr("y", 0)
+							 .attr("width",  canvasWidth)
+							 .attr("height", canvasHeigth)
+							 .attr("class", "plot-bg")
+
+
+var timelineX = 0
+var timelineY = canvasHeigth - 40;
+
+var timelineGroup = svgContainer.append("g")
+
+var timeline = timelineGroup.append("line")
+                           .attr("x1", 0)
+                           .attr("y1", timelineY)
+                           .attr("x2", canvasWidth)
+                           .attr("y2", timelineY)
+						   .attr("class", 'timeline')
+
+var timelineCirclesMargin = 100;
+var timelineCirclesDistance = (canvasWidth - 2 * timelineCirclesMargin) / 2
+var circleR = 8;
+var activeCircleR = 13;
+
+var activeTimelineCircle = 0
+
+
+
+var dataRiver1 = [
+	{"x": 0, "y": -20},
+	{"x": 150, "y": 0},
+	{"x": 430, "y": 100},
+	{"x": 600, "y": 80},
+	{"x": 800, "y": 120},
+]
+
+
+var dataRiver2 = [
+	{"x": 0, "y": 230},
+	{"x": 130, "y": 170},
+	{"x": 250, "y": 210},
+	{"x": 400, "y": 230},
+	{"x": 430, "y": 100}
+]
+
+
+var dataArmy1 = [
+	{"x": [30, 50, 340], "y": [200, 240, 150], "radius": 10, "color" : "#bf2d2d"},
+	{"x": [60, 120, 320], "y": [180, 220, 170], "radius": 10, "color" : "#bf2d2d"},
+	{"x": [80, 160, 290], "y": [170, 210, 150], "radius": 10, "color" : "#bf2d2d"},
+	{"x": [160, 350, 355], "y": [160, 170, 175], "radius": 10, "color" : "#bf2d2d"},
+	{"x": [170, 370, 370], "y": [200, 160, 155], "radius": 10, "color" : "#bf2d2d"},
+]
+
+var line = d3.line()
+			  .x(function(d) { return d.x; })
+              .y(function(d) { return d.y; })
+						
+var mapGroup = svgContainer.append("g")
+
+mapGroup.append('path').attr('d', line(dataRiver1)).attr("class", "river1")
+mapGroup.append('path').attr('d', line(dataRiver2)).attr("class", "river2")
+
+mapGroup.selectAll("circle")
+    	.data(dataArmy1)
+    	.enter().append("circle").attr("cx", function (d) { return d.x[0]; })
+                .attr("cy", function (d) { return d.y[0]; })
+                .attr("r", function (d) { return d.radius; })
+                .style("fill", function(d) { return d.color; })
+
+refreshActiveCircle = function(){
+	circles = timelineGroup.selectAll("circle")
+	circles.attr('r', function(d, i){ return i === activeTimelineCircle ? activeCircleR: circleR })
+		   .attr('class', function(d, i){ return i === activeTimelineCircle ? "timeline-circle timeline-circle-selected ": "timeline-circle" })
+
+	mapGroup.selectAll("circle").transition().duration(1000)
+        .attr("cx", function (d) { return d.x[activeTimelineCircle]; })
+        .attr("cy", function (d) { return d.y[activeTimelineCircle]; })
+}
+
+getOnTimelineCircleOnClickHandler = function(i){
+	return function(d){
+		activeTimelineCircle = i;
+		refreshActiveCircle()
+	}
+}
+
+for(var i = 0; i < 3; i++){
+	x = timelineCirclesMargin + timelineCirclesDistance * i
+	timelineGroup.append("circle")
+				 .attr("transform", "translate(" + x + ", " + timelineY + ")")
+				 .attr("class", 'timeline-circle')
+				 .attr("r", circleR)
+				 .on("click", getOnTimelineCircleOnClickHandler(i))
+}
+refreshActiveCircle()
+
+</script>

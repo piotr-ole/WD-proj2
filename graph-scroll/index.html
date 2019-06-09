@@ -454,7 +454,7 @@ function render(){
       })
 
   d3.select('#source')
-      .styles({'margin-bottom': 170 + 'px', padding: '50px'})
+      .styles({'margin-bottom': window.innerHeight - 730 + 'px', padding: '50px'})
 }
 render()
 d3.select(window).on('resize', render)

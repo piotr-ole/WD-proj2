@@ -46,8 +46,9 @@
 
 <script>
 
-var canvasHeigth = 400;
-var canvasWidth = 800;
+var sizeMult = 1.8;
+var canvasHeigth = 400 * sizeMult;
+var canvasWidth = 800 * sizeMult;
 
 var svgContainer = d3.select("body").append("svg")
                                     .attr("width",  canvasWidth)
@@ -75,35 +76,41 @@ var timeline = timelineGroup.append("line")
 
 var timelineCirclesMargin = 100;
 var timelineCirclesDistance = (canvasWidth - 2 * timelineCirclesMargin) / 2
-var circleR = 8;
-var activeCircleR = 13;
+var circleR = 8 * sizeMult;
+var activeCircleR = 13 * sizeMult;
 
 var activeTimelineCircle = 0
 
 
 
 var dataRiver1 = [
-	{"x": 0, "y": -20},
-	{"x": 150, "y": 0},
-	{"x": 430, "y": 100},
-	{"x": 600, "y": 80},
-	{"x": 800, "y": 120},
+	{"x": 0 * sizeMult, "y": -20 * sizeMult},
+	{"x": 150 * sizeMult, "y": 0 * sizeMult},
+	{"x": 430 * sizeMult, "y": 100 * sizeMult},
+	{"x": 600 * sizeMult, "y": 80 * sizeMult},
+	{"x": 800 * sizeMult, "y": 120 * sizeMult},
 ]
 
 
 var dataRiver2 = [
-	{"x": 0, "y": 230},
-	{"x": 130, "y": 170},
-	{"x": 250, "y": 210},
-	{"x": 400, "y": 230},
-	{"x": 430, "y": 100}
+	{"x": 0 * sizeMult, "y": 230 * sizeMult},
+	{"x": 130 * sizeMult, "y": 170 * sizeMult},
+	{"x": 250 * sizeMult, "y": 210 * sizeMult},
+	{"x": 400 * sizeMult, "y": 230 * sizeMult},
+	{"x": 430 * sizeMult, "y": 100 * sizeMult}
 ]
 
 
 var dataArmy1 = [
-	{"x": [30, 50, 340], "y": [200, 240, 150], "radius": 10, "color" : "#bf2d2d"},
-	{"x": [60, 120, 320], "y": [180, 220, 170], "radius": 10, "color" : "#bf2d2d"},
-	{"x": [80, 160, 290], "y": [170, 210, 150], "radius": 10, "color" : "#bf2d2d"},
+	{"x": [30 * sizeMult, 50 * sizeMult, 340 * sizeMult],
+		"y": [200 * sizeMult, 240 * sizeMult, 150 * sizeMult],
+		"radius": 10 * sizeMult, "color" : "#bf2d2d"}, // 25 DP
+	{"x": [60 * sizeMult, 120 * sizeMult, 320 * sizeMult],
+		"y": [180 * sizeMult, 220 * sizeMult, 170 * sizeMult],
+		"radius": 10 * sizeMult, "color" : "#bf2d2d"},
+	{"x": [80 * sizeMult, 160 * sizeMult, 290 * sizeMult],
+		"y": [170 * sizeMult, 210 * sizeMult, 150 * sizeMult],
+		"radius": 10 * sizeMult, "color" : "#bf2d2d"},
 	{"x": [160, 350, 355], "y": [160, 170, 175], "radius": 10, "color" : "#bf2d2d"},
 	{"x": [170, 370, 370], "y": [200, 160, 155], "radius": 10, "color" : "#bf2d2d"},
 ]

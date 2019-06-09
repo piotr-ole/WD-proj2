@@ -7,7 +7,7 @@
 body{
   max-width: 1050px;
   margin: 0px auto;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Arial;
   font-size: 18px;
   text-align: justify
 }
@@ -68,7 +68,7 @@ h1{
 
 #graph{
   margin-left: 40px;
-  width: 500px;
+  width: 600px;
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
@@ -237,6 +237,7 @@ svg{
 <script src="graph-scroll.js"></script>
 <script>
 
+var mariginTop = 90
 var oldWidth = 0
 function render(){
   if (oldWidth == innerWidth) return
@@ -255,7 +256,9 @@ function render(){
 
   var svg = d3.select('#graph').html('')
     .append('svg')
-      .attrs({width: width, height: height})
+      .attrs({width: width, height: height+mariginTop})
+    .append("g")
+        .attr("transform", "translate(0 ," + mariginTop + ")");
 
   var image1 = svg.append('image')
     .attr('xlink:href', 'img/Wladyslaw_Jagiello.jpg')
@@ -297,46 +300,66 @@ function render(){
         image2.style("visibility", image2Visiblity[i])
         image3.style("visibility", image3Visiblity[i])
       })
-
+  
+  var mapScale = 1.7
+    
+  var scaleArmyDict = function(armyDict, scale){
+    return armyDict.map(function(d){
+      return {
+        "x": d.x.map(function(dx){return dx * scale}),
+        "y": d.y.map(function(dy){return dy * scale}),
+        "radius": d.radius
+      }
+    })
+  }
 
   var svg2 = d3.select('.container-2 #graph').html('')
     .append('svg')
-      .attrs({width: width, height: 350})
-
+      .attrs({width: width * mapScale, height: 385 * mapScale + mariginTop})
+    .append("g")
+        .attr("transform", "translate(0 ," + mariginTop + ")");
+  var radiusMult = 1.5
   var dataArmyPol = [
-      {"x": [178, 171, 171, 155], "y": [285, 285, 285, 220], "radius": [9, 9, 9, 9]},
-      {"x": [212, 204, 204, 190], "y": [255, 255, 255, 225], "radius": [9, 9, 9, 9]},
-      {"x": [240, 233, 233, 238], "y": [220, 220, 220, 210], "radius": [9, 9, 9, 9]},
-      {"x": [265, 260, 260, 240], "y": [185, 185, 185, 175], "radius": [9, 9, 9, 9]},
-      {"x": [220, 216, 216, 220], "y": [300, 300, 300, 230], "radius": [9, 9, 9, 9]},
-      {"x": [285, 285, 330, 290], "y": [230, 230, 180, 170], "radius": [9, 9, 9, 9]},
-      {"x": [412, 412, 370, 370], "y": [190, 190, 140, 140], "radius": [9, 9, 9, 0]},
-      {"x": [400, 400, 360, 290], "y": [250, 250, 170, 135], "radius": [9, 9, 9, 9]},
+      {"x": [178, 171, 171, 155], "y": [285, 285, 285, 220], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [212, 204, 204, 190], "y": [255, 255, 255, 225], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [240, 233, 233, 238], "y": [220, 220, 220, 210], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [265, 260, 260, 240], "y": [185, 185, 185, 175], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [220, 216, 216, 220], "y": [300, 300, 300, 230], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [285, 285, 330, 290], "y": [230, 230, 180, 170], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [412, 412, 370, 370], "y": [190, 190, 140, 140], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 0 * radiusMult]},
+      {"x": [400, 400, 360, 290], "y": [250, 250, 170, 135], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
       ]
+
+    dataArmyPol = scaleArmyDict(dataArmyPol, mapScale)
 
     var dataArmyLit = [
-      {"x": [292, 360, 360, 360], "y": [147, 150, 150, 150], "radius": [9, 0, 0, 0]},
-      {"x": [315, 355, 355, 355], "y": [115, 120, 120, 120], "radius": [9, 0, 0, 0]},
-      {"x": [345, 370, 370, 270], "y": [84, 100, 100, 110], "radius": [9, 9, 9, 9]},
+      {"x": [292, 360, 360, 360], "y": [147, 150, 150, 150], "radius": [9 * radiusMult, 0 * radiusMult, 0 * radiusMult, 0 * radiusMult]},
+      {"x": [315, 355, 355, 355], "y": [115, 120, 120, 120], "radius": [9 * radiusMult, 0 * radiusMult, 0 * radiusMult, 0 * radiusMult]},
+      {"x": [345, 370, 370, 270], "y": [84, 100, 100, 110], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
       ]
 
+    dataArmyLit = scaleArmyDict(dataArmyLit, mapScale)
+
+
     var dataArmyGer = [
-      {"x": [86, 86, 86, 260], "y": [110, 110, 110, 160], "radius": [9, 9, 9, 9]},
-      {"x": [76, 76, 76, 250], "y": [140, 140, 140, 140], "radius": [9, 9, 9, 9]},
-      {"x": [150, 156, 156, 160], "y": [258, 265, 265, 195], "radius": [9, 9, 9, 9]},
-      {"x": [178, 184, 184, 190], "y": [220, 230, 230, 205], "radius": [9, 9, 9, 9]},
-      {"x": [206, 212, 212, 205], "y": [185, 195, 195, 200], "radius": [9, 9, 9, 9]},
-      {"x": [230, 235, 235, 215], "y": [150, 165, 165, 190], "radius": [9, 9, 9, 9]},
-      {"x": [254, 330, 330, 330], "y": [115, 150, 150, 150], "radius": [9, 9, 9, 0]},
-      {"x": [278, 335, 335, 335], "y": [80, 100, 100, 100], "radius": [9, 9, 0, 0]},
-      {"x": [308, 355, 355, 355], "y": [50, 80, 80, 80], "radius": [9, 9, 9, 0]},
+      {"x": [86, 86, 86, 260], "y": [110, 110, 110, 160], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [76, 76, 76, 250], "y": [140, 140, 140, 140], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [150, 156, 156, 160], "y": [258, 265, 265, 195], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [178, 184, 184, 190], "y": [220, 230, 230, 205], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [206, 212, 212, 205], "y": [185, 195, 195, 200], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [230, 235, 235, 215], "y": [150, 165, 165, 190], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [254, 330, 330, 330], "y": [115, 150, 150, 150], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 0 * radiusMult]},
+      {"x": [278, 335, 335, 335], "y": [80, 100, 100, 100], "radius": [9 * radiusMult, 9 * radiusMult, 0 * radiusMult, 0 * radiusMult]},
+      {"x": [308, 355, 355, 355], "y": [50, 80, 80, 80], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 0 * radiusMult]},
       ]
+
+    dataArmyGer = scaleArmyDict(dataArmyGer, mapScale)
 
 
   var map = svg2.append('image')
     .attr('xlink:href', 'mapa.svg')
-    .attr('width', 500)
-    .attr('height', 385)
+    .attr('width', 500 * mapScale)
+    .attr('height', 385 * mapScale)
 
   
 
@@ -398,7 +421,9 @@ function render(){
 
   var svg3 = d3.select('.container-3 #graph').html('')
     .append('svg')
-      .attrs({width: width, height: height})
+      .attrs({width: width, height: height + mariginTop})
+    .append("g")
+        .attr("transform", "translate(0 ," + mariginTop + ")");
 
   var path = svg3.append('path')
 
@@ -421,21 +446,7 @@ function render(){
       .eventId('uniqueId3')  // namespace for scroll and resize events
       .sections(d3.selectAll('.container-3 #sections > div'))
       .on('active', function(i){
-        var h = height
-        var w = width
-        var dArray = [
-          [[w/4, h/4], [w*3/4, h/4],  [w*3/4, h*3/4], [w/4, h*3/4]],
-          [[0, 0],     [w*3/4, h/4],  [w*3/4, h*3/4], [w/4, h*3/4]],
-          [[w/2, h/2], [w, h/4],      [w, h],         [w/4, h]],
-          [[w/2, h/2], [w, h/4],      [w, h],         [w/4, h]],
-          [[w/2, h/2], [w, h/2],      [0, 0],         [w/4, h/2]],
-          [[w/2, h/2], [0, h/4],      [0, h/2],         [w/4, 0]],
-        ].map(function(d){ return 'M' + d.join(' L ') })
-
-
-        path.transition().duration(1000)
-            .attr('d', dArray[i])
-            .style('fill', colors[i])
+        
 
         imagePlot.style("visibility", imagePlotVisiblty[i])
         imageCronica.style("visibility", imageCronicaVisiblty[i])
@@ -443,7 +454,7 @@ function render(){
       })
 
   d3.select('#source')
-      .styles({'margin-bottom': window.innerHeight - 450 + 'px', padding: '50px'})
+      .styles({'margin-bottom': window.innerHeight - 730 + 'px', padding: '50px'})
 }
 render()
 d3.select(window).on('resize', render)

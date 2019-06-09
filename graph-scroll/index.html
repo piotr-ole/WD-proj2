@@ -18,6 +18,24 @@ h1{
   text-align: center;
 }
 
+.army-polish {
+  fill: white;
+  stroke:#bf2d2d;
+  stroke-width: 8px;
+}
+
+.army-ger {
+  fill: #2f1199;
+  stroke:#2f1199;
+  stroke-width: 8px;
+}
+
+.army-lit {
+  fill: #bf2d2d;
+  stroke:#bf2d2d;
+  stroke-width: 8px;
+}
+
 
 #container{
   position: relative;
@@ -269,6 +287,7 @@ function render(){
   var circleVisiblity = ["hidden", "visible", "visible", "hidden", "hidden"]
   var imageVisiblity = ["visible", "hidden", "hidden", "hidden", "hidden"]
   var textVisiblity = ["hidden", "hidden", "visible", "visible", "visible"]
+  var mapVisibility = ["visible", "visible", "visible", "visible", "visible"]
 
   var gs = d3.graphScroll()
       .container(d3.select('.container-1'))
@@ -297,9 +316,72 @@ function render(){
 
   var svg2 = d3.select('.container-2 #graph').html('')
     .append('svg')
-      .attrs({width: width, height: height})
+      .attrs({width: width, height: 350})
 
-  var path = svg2.append('path')
+  var dataArmyPol = [
+      {"x": [178, 171, 171, 155], "y": [285, 285, 285, 220], "radius": [9, 9, 9, 9]},
+      {"x": [212, 204, 204, 190], "y": [255, 255, 255, 225], "radius": [9, 9, 9, 9]},
+      {"x": [240, 233, 233, 238], "y": [220, 220, 220, 210], "radius": [9, 9, 9, 9]},
+      {"x": [265, 260, 260, 240], "y": [185, 185, 185, 175], "radius": [9, 9, 9, 9]},
+      {"x": [220, 216, 216, 220], "y": [300, 300, 300, 230], "radius": [9, 9, 9, 9]},
+      {"x": [285, 285, 330, 290], "y": [230, 230, 180, 170], "radius": [9, 9, 9, 9]},
+      {"x": [412, 412, 370, 370], "y": [190, 190, 140, 140], "radius": [9, 9, 9, 0]},
+      {"x": [400, 400, 360, 290], "y": [250, 250, 170, 135], "radius": [9, 9, 9, 9]},
+      ]
+
+    var dataArmyLit = [
+      {"x": [292, 360, 360, 360], "y": [147, 150, 150, 150], "radius": [9, 0, 0, 0]},
+      {"x": [315, 355, 355, 355], "y": [115, 120, 120, 120], "radius": [9, 0, 0, 0]},
+      {"x": [345, 370, 370, 270], "y": [84, 100, 100, 110], "radius": [9, 9, 9, 9]},
+      ]
+
+    var dataArmyGer = [
+      {"x": [86, 86, 86, 260], "y": [110, 110, 110, 160], "radius": [9, 9, 9, 9]},
+      {"x": [76, 76, 76, 250], "y": [140, 140, 140, 140], "radius": [9, 9, 9, 9]},
+      {"x": [150, 156, 156, 160], "y": [258, 265, 265, 195], "radius": [9, 9, 9, 9]},
+      {"x": [178, 184, 184, 190], "y": [220, 230, 230, 205], "radius": [9, 9, 9, 9]},
+      {"x": [206, 212, 212, 205], "y": [185, 195, 195, 200], "radius": [9, 9, 9, 9]},
+      {"x": [230, 235, 235, 215], "y": [150, 165, 165, 190], "radius": [9, 9, 9, 9]},
+      {"x": [254, 330, 330, 330], "y": [115, 150, 150, 150], "radius": [9, 9, 9, 0]},
+      {"x": [278, 335, 335, 335], "y": [80, 100, 100, 100], "radius": [9, 9, 0, 0]},
+      {"x": [308, 355, 355, 355], "y": [50, 80, 80, 80], "radius": [9, 9, 9, 0]},
+      ]
+
+
+  var map = svg2.append('image')
+    .attr('xlink:href', 'mapa.svg')
+    .attr('width', 500)
+    .attr('height', 385)
+
+  
+
+  var armyPol = svg2.append('svg')
+                  .selectAll("circle")
+                    .data(dataArmyPol)
+                    .enter().append("circle").attr("cx", function (d) { return d.x[0]; })
+                              .attr("cy", function (d) { return d.y[0]; })
+                              .attr("r", function (d) { return d.radius[0]; })
+                              .attr("class", "army-polish")
+                              .style("fill", function(d) { return d.color; })
+
+  var armyLit = svg2.append('svg')
+                .selectAll("circle")
+                  .data(dataArmyLit)
+                  .enter().append("circle").attr("cx", function (d) { return d.x[0]; })
+                            .attr("cy", function (d) { return d.y[0]; })
+                            .attr("r", function (d) { return d.radius[0]; })
+                            .attr("class", "army-lit")
+                            .style("fill", function(d) { return d.color; })
+
+  var armyGer = svg2.append('svg')
+                .selectAll("circle")
+                  .data(dataArmyGer)
+                  .enter().append("circle").attr("cx", function (d) { return d.x[0]; })
+                            .attr("cy", function (d) { return d.y[0]; })
+                            .attr("r", function (d) { return d.radius[0]; })
+                            .attr("class", "army-ger")
+                            .style("fill", function(d) { return d.color; })
+
 
   var gs2 = d3.graphScroll()
       .container(d3.select('.container-2'))
@@ -307,21 +389,25 @@ function render(){
       .eventId('uniqueId2')  // namespace for scroll and resize events
       .sections(d3.selectAll('.container-2 #sections > div'))
       .on('active', function(i){
-        var h = height
-        var w = width
-        var dArray = [
-          [[w/4, h/4], [w*3/4, h/4],  [w*3/4, h*3/4], [w/4, h*3/4]],
-          [[0, 0],     [w*3/4, h/4],  [w*3/4, h*3/4], [w/4, h*3/4]],
-          [[w/2, h/2], [w, h/4],      [w, h],         [w/4, h]],
-          [[w/2, h/2], [w, h/4],      [w, h],         [w/4, h]],
-          [[w/2, h/2], [w, h/2],      [0, 0],         [w/4, h/2]],
-          [[w/2, h/2], [0, h/4],      [0, h/2],         [w/4, 0]],
-        ].map(function(d){ return 'M' + d.join(' L ') })
+        map.style("visibility", mapVisibility[i])
+        
+        armyPol.transition().duration(1000)
+              .attr("cx", function (d) { return d.x[i]; })
+              .attr("cy", function (d) { return d.y[i]; })
+              .attr("r", function (d) { return d.radius[i]; })
+        
+        armyLit.transition().duration(1000)
+              .attr("cx", function (d) { return d.x[i]; })
+              .attr("cy", function (d) { return d.y[i]; })
+              .attr("r", function (d) { return d.radius[i]; })
 
 
-        path.transition().duration(1000)
-            .attr('d', dArray[i])
-            .style('fill', colors[i])
+        armyGer.transition().duration(1000)
+              .attr("cx", function (d) { return d.x[i]; })
+              .attr("cy", function (d) { return d.y[i]; })
+              .attr("r", function (d) { return d.radius[i]; })
+
+
       })
 
   var svg3 = d3.select('.container-3 #graph').html('')

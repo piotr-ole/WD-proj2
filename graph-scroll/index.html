@@ -68,7 +68,7 @@ h1{
 
 #graph{
   margin-left: 40px;
-  width: 500px;
+  width: 600px;
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
@@ -297,11 +297,22 @@ function render(){
         image2.style("visibility", image2Visiblity[i])
         image3.style("visibility", image3Visiblity[i])
       })
-
+  
+  var mapScale = 1.5
+    
+  var scaleArmyDict = function(armyDict, scale){
+    return armyDict.map(function(d){
+      return {
+        "x": d.x.map(function(dx){return dx * scale}),
+        "y": d.y.map(function(dy){return dy * scale}),
+        "radius": d.radius
+      }
+    })
+  }
 
   var svg2 = d3.select('.container-2 #graph').html('')
     .append('svg')
-      .attrs({width: width, height: 385})
+      .attrs({width: width * mapScale, height: 385 * mapScale})
 
   var dataArmyPol = [
       {"x": [178, 171, 171, 155], "y": [285, 285, 285, 220], "radius": [9, 9, 9, 9]},
@@ -314,11 +325,16 @@ function render(){
       {"x": [400, 400, 360, 290], "y": [250, 250, 170, 135], "radius": [9, 9, 9, 9]},
       ]
 
+    dataArmyPol = scaleArmyDict(dataArmyPol, mapScale)
+
     var dataArmyLit = [
       {"x": [292, 360, 360, 360], "y": [147, 150, 150, 150], "radius": [9, 0, 0, 0]},
       {"x": [315, 355, 355, 355], "y": [115, 120, 120, 120], "radius": [9, 0, 0, 0]},
       {"x": [345, 370, 370, 270], "y": [84, 100, 100, 110], "radius": [9, 9, 9, 9]},
       ]
+
+    dataArmyLit = scaleArmyDict(dataArmyLit, mapScale)
+
 
     var dataArmyGer = [
       {"x": [86, 86, 86, 260], "y": [110, 110, 110, 160], "radius": [9, 9, 9, 9]},
@@ -332,11 +348,13 @@ function render(){
       {"x": [308, 355, 355, 355], "y": [50, 80, 80, 80], "radius": [9, 9, 9, 0]},
       ]
 
+    dataArmyGer = scaleArmyDict(dataArmyGer, mapScale)
+
 
   var map = svg2.append('image')
     .attr('xlink:href', 'mapa.svg')
-    .attr('width', 500)
-    .attr('height', 385)
+    .attr('width', 500 * mapScale)
+    .attr('height', 385 * mapScale)
 
   
 

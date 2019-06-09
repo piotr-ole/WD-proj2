@@ -5,9 +5,19 @@
 <style>
 
 body{
-  max-width: 900px;
+  max-width: 1050px;
   margin: 0px auto;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 18px;
+  text-align: justify
+}
+
+html { 
+  background: url(img/Jan_Matejko,_Bitwa_pod_Grunwaldem4.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 h1{
@@ -42,11 +52,10 @@ h1{
 }
 
 #sections{
-  width: 340px;
+  width: 370px;
 }
 
 #sections > div{
-  background: white;
   opacity: .2;
   margin-bottom: 200px;
 }
@@ -80,7 +89,6 @@ h1{
   }
 
   #sections > div{
-    background: rgba(255,255,255,.5);
     padding: 10px;
     border-top: 1px solid;
     border-bottom: 1px solid;
@@ -94,6 +102,7 @@ h1{
   h1{
     margin: 10px;
   }
+
 }
 
 
@@ -106,13 +115,13 @@ circle{
 }
 
 svg{
-  background-color: #eee;
+  background-color:  rgb(0,0,0,0);
 }
-
 </style>
-
+<div class = 'pageBackground'>
+<body>
 <h1>Bitwa pod Grunwaldem</h1>
-
+<br> 
 <div id='container' class='container-1'>
   <div id='graph'></div>
   <div id='sections'>
@@ -122,7 +131,6 @@ svg{
       co wciągnęło w konflikt Polskę, gdyż oba kraje rządzone były przez tego samego monarchę: Władysława Jagiełłę.
       <br>
       <br>
-      TODO: Po prawej Jagiełło
     </div>
 
     <div>
@@ -132,7 +140,6 @@ svg{
         Jesienią zawarto rozejm, który miał obowiązywać do Zielonych Świąt 1410. Obie strony wykorzystały ten czas na przygotowanie do walk.
         <br>
         <br>
-        TODO: Po prawej Jungingen
     </div>
 
 
@@ -154,7 +161,7 @@ svg{
 <h1>
   Przebieg walk
 </h1>
-
+<br> 
 <div id='container' class='container-2'>
   <div id='graph'></div>
 
@@ -196,7 +203,7 @@ svg{
 <h1>
   Skutki bitwy
 </h1>
-
+<br> 
 <div id='container' class='container-3'>
   <div id='graph'></div>
 
@@ -207,6 +214,7 @@ svg{
         Krzyżacy: 8 tys zabitych, 2 tys wziętych do niewoli<br>
         Polacy: 2 tys zaitych<br>
         TODO: plot
+        <br> <br> <br> <br> <br> <br> 
     </div>
 
     <div>
@@ -218,32 +226,13 @@ svg{
         Zabezpieczało to Polskę przed jednoczesną walką z Krzyżakami i Węgrami.
         <br>
         <br>
-        TODO: ja bym tu widział jakiś obrazek (rycinę, zdjęcie dokumentu. Wymyślicie coś)
     </div>
 
-    <div>
-      <h3>Examples: polecam rzucić okiem zwłasza na pierwszy, myślę że jest on prosty graficznie, a przy tym ciekawy</h3>
-      <p><a href='http://www.bloomberg.com/graphics/2015-auto-sales/'>Auto Sales</a></p>
-      <p><a href='http://www.bloomberg.com/graphics/2015-measles-outbreaks/'>Measles</a></p>
-      <p><a href='http://roadtolarissa.com/blog/2015/01/04/coloring-maps-with-d3/'>Coloring Maps</a></p>
-      <!--<p><a href='http://www.bloomberg.com/graphics/2015-fifa-scandal/'>FIFA Scandal</a></p>-->
-      <p><a href='http://www.bloomberg.com/graphics/2015-whats-warming-the-world/'>Global Warming</a></p>
-      <p><a href='http://www.bloomberg.com/politics/graphics/2015-hillary-womens-movement-timeline/'>Hillary Clinton’s Debt to Feminism
-</a></p>
-      <p><a href='http://www.bloomberg.com/graphics/year-ahead-2016/'>The Year Ahead</a></p>
-      <p><a href='http://www.bloomberg.com/graphics/2015-pace-of-social-change/'>Pace of Social Change</a></p>
-      <p><a href='http://www.bloomberg.com/graphics/2015-red-meat-cancer/'>Red Meat</a></p>
-
-      TODO: oczywiście do wywyalenia ostatecznie jest ta sekcja.
-    </div>
   </div>
-
-
 </div>
-
-<h1 id='source'><a href='https://github.com/1wheel/graph-scroll'>contribute/view source on github</a></h1>
-
-
+<h3 id='source'></h3>
+</body>
+</div>
 <script src="d3v4+jetpack.js"></script>
 <script src="graph-scroll.js"></script>
 <script>
@@ -268,21 +257,24 @@ function render(){
     .append('svg')
       .attrs({width: width, height: height})
 
-  var circle = svg.append('circle')
-      .attrs({cx: 0, cy: 0, r: r})
-      .style("visibility", "hidden")
-
-  var svgText = svg.append("text");
-
-  var image = svg.append('image')
-    .attr('xlink:href', 'http://lorempixel.com/500/500/')
+  var image1 = svg.append('image')
+    .attr('xlink:href', 'img/Wladyslaw_Jagiello.jpg')
     .attr('width', 500)
-    .attr('height', 500)
+    .attr('height', 600)
+  
+  var image2 = svg.append('image')
+    .attr('xlink:href', 'img/Ulryk2.jpg')
+    .attr('width', 500)
+    .attr('height', 600)
 
+  var image3 = svg.append('image')
+    .attr('xlink:href', 'img/plot.jpg')
+    .attr('width', 500)
+    .attr('height', 600)
 
-  svgText.attr("x",50).attr("y",50).attr("font-size", "34px");
-  svgText.text("Jakiś kolorowy tekst XD");
-
+  var image1Visiblity = ["visible", "hidden", "hidden"]
+  var image2Visiblity = ["hidden", "visible", "hidden"]
+  var image3Visiblity = ["hidden", "hidden", "visible"]
   var colors = ['orange', 'purple', 'steelblue', 'pink', 'black']
   var circleVisiblity = ["hidden", "visible", "visible", "hidden", "hidden"]
   var imageVisiblity = ["visible", "hidden", "hidden", "hidden", "hidden"]
@@ -300,17 +292,10 @@ function render(){
                     {cx: r,         cy: r},
                     {cx: width - r, cy: height - r},
                     {cx: width/2,   cy: height/2} ][i]
-        
-        circle
-            .attrs(pos)
-            .style("visibility", circleVisiblity[i])
-            .style('fill', colors[i])
 
-        svgText
-            .style("visibility", textVisiblity[i])
-            .style('fill', colors[i])
-
-        image.style("visibility", imageVisiblity[i])
+        image1.style("visibility", image1Visiblity[i])
+        image2.style("visibility", image2Visiblity[i])
+        image3.style("visibility", image3Visiblity[i])
       })
 
 
@@ -383,6 +368,7 @@ function render(){
                             .style("fill", function(d) { return d.color; })
 
 
+
   var gs2 = d3.graphScroll()
       .container(d3.select('.container-2'))
       .graph(d3.selectAll('.container-2 #graph'))
@@ -416,6 +402,19 @@ function render(){
 
   var path = svg3.append('path')
 
+  var imagePlot = svg3.append('image')
+    .attr('xlink:href', 'img/plot.jpg')
+    .attr('width', 500)
+    .attr('height', 600)
+
+  var imageCronica = svg3.append('image')
+    .attr('xlink:href', 'img/kronika_konfliktu.jpg')
+    .attr('width', 500)
+    .attr('height', 600)
+
+  var imagePlotVisiblty = ["visible", "hidden"]
+  var imageCronicaVisiblty = ["hidden", "visible"]
+
   var gs3 = d3.graphScroll()
       .container(d3.select('.container-3'))
       .graph(d3.selectAll('.container-3 #graph'))
@@ -437,10 +436,14 @@ function render(){
         path.transition().duration(1000)
             .attr('d', dArray[i])
             .style('fill', colors[i])
+
+        imagePlot.style("visibility", imagePlotVisiblty[i])
+        imageCronica.style("visibility", imageCronicaVisiblty[i])
+
       })
 
   d3.select('#source')
-      .styles({'margin-bottom': window.innerHeight - 450 + 'px', padding: '100px'})
+      .styles({'margin-bottom': window.innerHeight - 450 + 'px', padding: '50px'})
 }
 render()
 d3.select(window).on('resize', render)
